@@ -7,3 +7,5 @@ GraphQL layer
 Streaming with Range
 Resume playback
 Progress saving
+Progress tracking
+UI reflecting playback state

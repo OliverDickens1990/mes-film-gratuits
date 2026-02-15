@@ -1,0 +1,26 @@
+type Query {
+    movies(page: Int = 0, size: Int = 20, search: String = ""): MoviePage!
+    movie(id: ID!): Movie
+}
+
+type Movie {
+    id: ID!
+    title: String
+    year: Int
+    resolution: String
+    source: String
+    audio: String
+    groupName: String
+    filename: String!
+
+    watchUrl: String!
+    streamUrl: String!
+}
+
+type MoviePage {
+    items: [Movie!]!
+    page: Int!
+    size: Int!
+    totalPages: Int!
+    totalItems: Int!
+}

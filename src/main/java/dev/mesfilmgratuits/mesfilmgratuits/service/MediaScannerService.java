@@ -1,5 +1,6 @@
 package dev.mesfilmgratuits.mesfilmgratuits.service;
 
+import dev.mesfilmgratuits.mesfilmgratuits.entity.MovieEntity;
 import org.springframework.stereotype.Service;
 import dev.mesfilmgratuits.mesfilmgratuits.model.Movie;
 import java.io.IOException;
@@ -56,5 +57,21 @@ public class MediaScannerService {
         // fallback if format doesn't match
         return new Movie(filename, null, null, null, null, null, filename);
     }
+    public MovieEntity toEntity(Path filePath) {
+        String filename = filePath.getFileName().toString();
 
+        // reuse your existing parsing logic (title/year/tags)
+        var movie = parseMovieFilename(filename);
+
+        return new MovieEntity(
+                movie.getTitle(),
+                movie.getYear(),
+                movie.getResolution(),
+                movie.getSource(),
+                movie.getAudio(),
+                movie.getGroup(),
+                filePath.toAbsolutePath().toString(),
+                filename
+        );
+    }
 }

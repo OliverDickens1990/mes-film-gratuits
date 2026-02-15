@@ -15,6 +15,8 @@ public class MovieEntity {
     private String source;
     private String audio;
     private String groupName;
+    private Integer durationSeconds;
+    private Integer progressSeconds;// where you left off feature
 
     @Column(nullable = false, unique = true, length = 1024)
     private String fullPath;
@@ -47,7 +49,11 @@ public class MovieEntity {
     public String getGroupName() { return groupName; }
     public String getFullPath() { return fullPath; }
     public String getFilename() { return filename; }
+    public Integer getDurationSeconds() { return durationSeconds; }
+    public Integer getProgressSeconds() { return progressSeconds; }
 
+    public void setDurationSeconds(Integer durationSeconds) { this.durationSeconds = durationSeconds; }
+    public void setProgressSeconds(Integer progressSeconds) { this.progressSeconds = progressSeconds; }
     public void setTitle(String title) { this.title = title; }
     public void setYear(Integer year) { this.year = year; }
     public void setResolution(String resolution) { this.resolution = resolution; }

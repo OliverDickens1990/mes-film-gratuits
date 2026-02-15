@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Movie Library</title>
+    <style>
+        body {
+            background-color: #141414;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 16px;
+            padding: 20px;
+        }
+        .card {
+            background: #222;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+        }
+        .title {
+            font-weight: bold;
+        }
+        .meta {
+            color: #aaa;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+<form method="get" action="/library" style="padding:20px;">
+    <input type="hidden" name="size" th:value="${size}">
+    <input type="text" name="search"
+           placeholder="Search..."
+           th:value="${search}"
+           style="padding:8px;width:300px;">
+    <button type="submit" style="padding:8px;">Search</button>
+</form>
+
+
+<div class="grid">
+    <div class="card" th:each="movie : ${movies}">
+
+        <div class="title" th:text="${movie.title}">Movie Title</div>
+        <div class="meta" th:text="${movie.year}">Year</div>
+        <div class="meta" th:text="${movie.resolution}">Resolution</div>
+
+        <div style="margin-top:8px;">
+
+            <a th:href="@{'/watch/' + ${movie.id}}"
+               style="background:#e50914;padding:6px 12px;border-radius:4px;">
+            <span th:text="${movie.progressSeconds != null && movie.progressSeconds > 0 ? 'Resume' : 'Watch'}">
+                Watch
+            </span>
+            </a>
+
+        </div>
+
+        <!-- Progress Bar 2hr max-->
+        <div th:if="${movie.progressSeconds != null && movie.progressSeconds > 0}"
+             style="margin-top:8px;background:#333;height:6px;border-radius:3px;overflow:hidden;">
+
+            <div th:style="'width:' + (${movie.progressSeconds} * 100 / 7200) + '%;background:#e50914;height:100%;'">
+            </div>
+
+        </div>
+
+    </div>
+
+<div style="padding:20px; display:flex; gap:12px; align-items:center;">
+
+    <a th:if="${moviesPage.hasPrevious()}"
+       th:href="@{/library(page=${currentPage-1}, size=${size}, search=${search})}">
+        Previous
+    </a>
+
+    <span>
+        Page <span th:text="${currentPage + 1}"></span>
+        of <span th:text="${totalPages}"></span>
+    </span>
+
+    <a th:if="${moviesPage.hasNext()}"
+       th:href="@{/library(page=${currentPage+1}, size=${size}, search=${search})}">
+        Next
+    </a>
+
+</div>
+
+
+</body>
+</html>
